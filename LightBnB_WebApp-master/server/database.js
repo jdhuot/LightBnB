@@ -81,7 +81,7 @@ const queryParams = [];
   let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating
   FROM properties
-  JOIN property_reviews ON properties.id = property_id
+  LEFT JOIN property_reviews ON properties.id = property_id
   `;
 
   if (options.city) {
@@ -108,7 +108,7 @@ const queryParams = [];
   queryParams.push(limit);
   queryString += `
   GROUP BY properties.id
-  ORDER BY cost_per_night
+  ORDER BY id DESC
   LIMIT $${queryParams.length};
   `;
 
@@ -152,3 +152,22 @@ const addProperty = function(property) {
 }
 
 exports.addProperty = addProperty;
+
+
+const addReservation = function(reservation) {
+
+  return pool.query(`
+  INSERT INTO reservations (
+    start_date, end_date, property_id, guest_id
+    )  
+    VALUES ($1,$2,$3,$4) RETURNING *;
+  `, [
+    reservation.start_date,
+    reservation.end_date,
+    reservation.property_id,
+    reservation.guest_id
+  ])
+  .then(res => res.rows);
+}
+
+exports.addReservation = addReservation;

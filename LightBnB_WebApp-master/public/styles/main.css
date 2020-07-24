@@ -4,11 +4,15 @@
   align-items: center;
   flex-direction: column; }
 
+section.property-listing__details {
+  padding:2em;  
+}
+
 .property-listing {
   margin: 20px 0;
   width: 100%;
-  max-width: 600px;
-  height: 200px;
+  max-width: 800px;
+  height: 300px;
   border: 1px solid black;
   box-sizing: border-box;
   display: flex;
@@ -23,6 +27,7 @@
     max-width: 50%; }
     .property-listing__preview-image img {
       min-width: 100%;
+      object-fit:cover;
       height: 100%;
       padding: 0; }
 
